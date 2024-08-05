@@ -7,12 +7,11 @@ A simple, real-time guestbook application built and deployed with:
 - [Replit](https://replit.com): Online IDE and hosting platform
   - [Replit Database](https://docs.replit.com/cloud-services/storage-and-databases/replit-database#what-is-replit-database): Key-value store for message persistence
 
-Say hi: [https://guestbook.mattpalmer.io](https://guestbook.mattpalmer.io)
+Say hi: [https://guestbook.mattpalmer.io](https://guestbook.mattpalmer.io) or [follow along](x.com/mattppal) for more!
 
 <div align="center">
   <img src="assets/screenshot.png" width="75%"/>
 </div>
-
 
 ## Setup
 
@@ -29,3 +28,4 @@ That's it!
 3. Adjust the styling in `style.css` to customize the appearance
 4. The Replit database is used for storing messages (`from replit import db`). 
    1. You can easily swap this with Postgres / SQLite if you'd prefer an alternative.
+
