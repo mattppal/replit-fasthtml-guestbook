@@ -13,7 +13,7 @@ requiredFiles = [".replit", "replit.nix"]
 
 [deployment]
 run = ["uvicorn", "main:app", "--reload"]
-deploymentTarget = "gce"
+deploymentTarget = "cloudrun"
 
 [[ports]]
 localPort = 5001
