@@ -5,7 +5,7 @@ A simple, real-time guestbook application built and deployed with:
 - [FastHTML](https://fastht.ml): A Python framework for building HTML applications
 - [HTMX](https://htmx.org): For seamless AJAX requests and updates
 - [Replit](https://replit.com): Online IDE and hosting platform
-  - [Replit Database](https://docs.replit.com/hosting/database-faq): Key-value store for message persistence
+  - [Replit Database](https://docs.replit.com/cloud-services/storage-and-databases/replit-database#what-is-replit-database): Key-value store for message persistence
 
 Say hi: [https://guestbook.mattpalmer.io](https://guestbook.mattpalmer.io)
 
