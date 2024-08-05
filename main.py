@@ -1,21 +1,54 @@
-from fasthtml.common import *
+from fasthtml.common import (
+    Div,
+    P,
+    Span,
+    Small,
+    fast_app,
+    Link,
+    Script,
+    Meta,
+    serve,
+    Label,
+    Input,
+    Form,
+    Button,
+    Title,
+    H1,
+    H2,
+    Main,
+)
 from datetime import datetime
 from replit import db
 import json
 import pytz
+from typing import List, Dict, Any
 
-MAX_NAME_CHAR = 15
-MAX_MESSAGE_CHAR = 50
-TIMESTAMP_FMT = "%Y-%m-%d %I:%M:%S %p PST"
+# Constants for input character limits and timestamp format
+MAX_NAME_CHAR: int = 15
+MAX_MESSAGE_CHAR: int = 50
+TIMESTAMP_FMT: str = "%Y-%m-%d %I:%M:%S %p PST"
 
 
-def get_pst_time():
+def get_pst_time() -> datetime:
+    """
+    Get the current time in Pacific Standard Time (PST).
+
+    Returns:
+        datetime: Current time in PST.
+    """
     utc_now = datetime.now(pytz.utc)
     pst_tz = pytz.timezone("US/Pacific")
     return utc_now.astimezone(pst_tz)
 
 
-def get_all_messages():
+def get_all_messages() -> List[Dict[str, Any]]:
+    """
+    Retrieve all messages from the database and sort them by timestamp.
+
+    Returns:
+        List[Dict[str, Any]]: A list of message dictionaries sorted by
+        timestamp in descending order.
+    """
     messages = []
     for key in db.keys():
         if key.startswith("message_"):
@@ -27,7 +60,14 @@ def get_all_messages():
     )
 
 
-def add_message(name, message):
+def add_message(name: str, message: str) -> None:
+    """
+    Add a new message to the database.
+
+    Args:
+        name (str): The name of the message author.
+        message (str): The content of the message.
+    """
     timestamp = get_pst_time().strftime(TIMESTAMP_FMT)
     new_id = str(len(db.keys()) + 1)
     new_message = {
@@ -39,7 +79,16 @@ def add_message(name, message):
     db[f"message_{new_id}"] = json.dumps(new_message)
 
 
-def create_message_list(messages):
+def create_message_list(messages: List[Dict[str, Any]]) -> Div:
+    """
+    Create an HTML representation of the message list.
+
+    Args:
+        messages (List[Dict[str, Any]]): A list of message dictionaries.
+
+    Returns:
+        Div: An HTML Div element containing the formatted message list.
+    """
     if not messages:
         return Div(
             P("No messages yet. Be the first to say hi!"),
@@ -66,7 +115,16 @@ def create_message_list(messages):
     )
 
 
-def create_guest_counter(count):
+def create_guest_counter(count: int) -> Div:
+    """
+    Create an HTML representation of the guest counter.
+
+    Args:
+        count (int): The number of guests who have left messages.
+
+    Returns:
+        Div: An HTML Div element containing the formatted guest counter.
+    """
     return Div(
         f"{count} guests have said hi so far ",
         Span("👋", cls="emoji"),
@@ -103,7 +161,13 @@ app, rt = fast_app(
 
 
 @rt("/", methods=["GET"])
-def get():
+def get() -> tuple:
+    """
+    Handle GET requests for the main page.
+
+    Returns:
+        tuple: A tuple containing the HTML elements for the main page.
+    """
     all_messages = get_all_messages()
     guest_counter = create_guest_counter(len(all_messages))
     message_list = create_message_list(all_messages)
@@ -119,7 +183,10 @@ def get():
                         required=True,
                         placeholder="Enter your name",
                         maxlength=str(MAX_NAME_CHAR),
-                        oninput=f"updateCharCount('name', 'nameCount', {MAX_NAME_CHAR})",
+                        oninput=(
+                            f"updateCharCount('message', 'messageCount', "
+                            f"{MAX_NAME_CHAR})"
+                        ),
                     ),
                     Span(id="nameCount", cls="char-count"),
                     cls="input-with-counter",
@@ -136,7 +203,10 @@ def get():
                         required=True,
                         placeholder="Enter your message",
                         maxlength=str(MAX_MESSAGE_CHAR),
-                        oninput=f"updateCharCount('message', 'messageCount', {MAX_MESSAGE_CHAR})",
+                        oninput=(
+                            f"updateCharCount('message', 'messageCount', "
+                            f"{MAX_MESSAGE_CHAR})"
+                        ),
                     ),
                     Span(id="messageCount", cls="char-count"),
                     cls="input-with-counter",
@@ -175,7 +245,17 @@ def get():
 
 
 @rt("/submit-message", methods=["POST"])
-def post(name: str, message: str):
+def post(name: str, message: str) -> Div:
+    """
+    Handle POST requests for submitting a new message.
+
+    Args:
+        name (str): The name of the message author.
+        message (str): The content of the message.
+    Returns:
+        Div: An HTML Div element containing the updated guest counter and
+             message list.
+    """
     add_message(name, message)
     all_messages = get_all_messages()
     guest_counter = create_guest_counter(len(all_messages))
@@ -190,7 +270,13 @@ def post(name: str, message: str):
 
 
 @rt("/update-messages", methods=["GET"])
-def get_update_messages():
+def get_update_messages() -> Div:
+    """
+    Handle GET requests for updating the message list.
+    Returns:
+        Div: An HTML Div element containing the updated guest counter and
+             message list.
+    """
     all_messages = get_all_messages()
     guest_counter = create_guest_counter(len(all_messages))
     message_list = create_message_list(all_messages)
