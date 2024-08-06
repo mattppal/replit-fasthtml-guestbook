@@ -1,13 +1,15 @@
 # Matt's Guestbook
 
-A simple, real-time guestbook application built and deployed with:
+A simple, real-time guestbook application built entirely in Python and deployed with Replit.
+
+This app is only ~150 lines of Python (in one file) and makes use of:
 
 - [FastHTML](https://fastht.ml): A Python framework for building HTML applications
 - [HTMX](https://htmx.org): For seamless AJAX requests and updates
 - [Replit](https://replit.com): Online IDE and hosting platform
   - [Replit Database](https://docs.replit.com/cloud-services/storage-and-databases/replit-database#what-is-replit-database): Key-value store for message persistence
 
-Say hi: [https://guestbook.mattpalmer.io](https://guestbook.mattpalmer.io) or [follow along](x.com/mattppal) for more!
+Say hi: [https://guestbook.mattpalmer.io](https://guestbook.mattpalmer.io) or [follow along](https://x.com/mattppal) for more!
 
 <div align="center">
   <img src="assets/screenshot.png" width="75%"/>

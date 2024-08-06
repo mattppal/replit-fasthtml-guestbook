@@ -1,4 +1,4 @@
-entrypoint = "main.py"
+entrypoint = "README.md"
 modules = ["python-3.10"]
 run = ["uvicorn", "main:app", "--reload"]
 
